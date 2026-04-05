@@ -1,524 +1,446 @@
-# Finance Dashboard (MERN)
+# 💰 Finance Dashboard
 
-A professional Finance Dashboard web application (MERN stack) with role-based Admin/Viewer UI, reusable charts (Recharts), and CRUD transaction management backed by MongoDB.
+A modern, production-ready Finance Dashboard built with MERN stack. Designed for personal finance management with role-based access control, real-time analytics, and a polished user experience.
 
-## Tech Stack
+---
 
-- Frontend: React.js (Vite) + Tailwind CSS
-- State Management: React Context API + `useReducer`
-- Charts: Recharts
-- Icons: Lucide React
-- Backend: Node.js + Express.js
-- Database: MongoDB + Mongoose
-- HTTP Client: Axios
-- Optional frontend auth (Sign in / Register in the top bar; demo accounts stored in the browser)
+## ✨ Key Features
 
-## Core Features ✨
+### 📊 **Dashboard**
+- **Summary Cards**: Total Balance, Income, Expenses, Transaction Count with period-over-period % change
+- **Financial Overview**: 6-month income vs expenses trend chart with interactive tooltips
+- **Spending Breakdown**: Category-wise expense distribution pie chart with percentages
+- **Recent Transactions**: Quick preview of the last 5 transactions with categorization
+- **Time Range Filter**: View data for custom periods (1M, 3M, 6M, 1Y, Overall)
+- **Budget Progress**: Visual progress indicators for spending limits
 
-### 📊 Dashboard
-- Summary cards: Total Balance, Total Income, Total Expenses, Transaction Count (with % change vs last month)
-- Balance trend chart (Income vs Expenses) for the last 6 months
-- Spending breakdown donut chart (expenses only) with category legend + slice percentages
-- Recent transactions preview
+### 💼 **Transactions Management**
+- ✅ **View**: Browse all transactions with rich filtering and sorting
+- ✅ **Search**: Real-time search by description (case-insensitive)
+- ✅ **Filter**: By type (Income/Expense), category, and date range
+- ✅ **Sort**: By date or amount (ascending/descending)
+- ✅ **Export**: Download transactions as CSV
+- ✅ **Pagination**: Adjustable rows per page (5-50)
+- 🔒 **Admin Only**: Add, edit, delete transactions (Viewers are read-only)
 
-### 💰 Transactions
-- Full transaction list with Date, Amount, Category, Type
-- **Search** by description (case-insensitive)
-- **Advanced Filtering**:
-  - By Type (All/Income/Expense)
-  - By Category
-  - Sort by Date or Amount (Asc/Desc)
-- **Admin-only CRUD**:
-  - `+ Add Transaction` button
-  - Edit & Delete actions per row
-  - Modal form with validation
-  - Delete confirmation dialog
-- **CSV Export** (download all transactions)
-- Pagination (10 rows per page)
-
-### 💡 Insights
+### 💡 **Insights & Analytics**
 - Top spending category with % share indicator
-- Last 3 months comparison (Income, Expenses, Net)
-- Auto-generated observations based on transaction data
-- Category expense breakdown with horizontal bars
+- 3-month period comparison (Income, Expenses, Net change)
+- Auto-generated observations based on spending patterns
+- Category breakdown with horizontal bar charts
+- Trend analysis and spending recommendations
 
-### 🎨 User Experience
-- Dark/Light theme toggle (persisted to `localStorage`)
-- Loading skeletons during API fetch
-- Graceful error states (backend offline shows mock data)
-- Toast notifications (success/error/info)
-- Fully responsive (mobile, tablet, desktop)
-- Empty states for no data scenarios
+### 🎨 **User Experience**
+- **Dark/Light Theme**: Toggle with persistent storage (localStorage)
+- **Fully Responsive**: Mobile, tablet, and desktop layouts
+- **Smooth Animations**: Framer Motion for page transitions, card hover effects, and micro-interactions
+- **Loading States**: Skeleton screens during data fetching
+- **Error Handling**: Graceful fallback to demo data with clear messaging
+- **Empty States**: Helpful guidance when no data is available
+- **Toast Notifications**: Success, error, and info feedback
+- **Accessibility**: Proper contrast, clear buttons, semantic HTML
 
-### ✨ Advanced Animations & Microinteractions
-- **Staggered Card Entrance**: Summary cards animate in smoothly with staggered timing (0.1s delays)
-- **Smart Card Hover**: Cards lift up on hover with dynamic shadow and glow effects
-- **Icon Animations**: Summary card icons rotate and scale on hover (spring physics)
-- **Value Animations**: Numbers count up to their final value with ease-out timing
-- **Table Row Animations**: Transaction rows slide in from left with smooth opacity transitions
-- **Row Hover Effects**: Rows highlight with left border accent on hover
-- **Toast Notifications**: Notifications slide in from right with spring physics, exit smoothly
-- **Chart Animations**: Both line chart and pie chart render with smooth animations
-- **Floating Background Elements**: Abstract animated blobs float across the background in soft motions
-- **Button Interactions**: All buttons have smooth scale and opacity transitions on hover/click
-- **Page Transitions**: Pages fade in with upward slide motion
-- **Modal Animations**: Forms and dialogs scale in and out with spring physics
-- **Dot Pulse**: Success indicators pulse with a glow effect
-
-**Animation Library**: Uses Framer Motion (v12+) for smooth, performant animations with:
-- Spring physics for natural motion
-- Stagger effects for sequential animations  
-- Gesture-based interactions (whileHover, whileTap)
-- AnimatePresence for exit animations
-
-**Creative Visual Touches**:
-- 🎨 Animated gradient accent bars on summary cards
-- 🌊 Smooth backdrop blur effects on sticky headers
-- 💫 Glow shadows that intensify on hover
-- 🎯 Icon scale & rotate on interaction (spring animation)
-- 📊 Charts auto-animate when data loads (500-900ms duration)
-- 🎪 Floating abstract background elements for ambiance
-- 🔔 Toast notifications slide in from top-right with spring bounce
-- ✨ Values count up to their final number (currency and counts)
-- 🎬 Smooth page transitions between Dashboard/Transactions/Insights
-- 🌟 Active navigation items highlight with color transitions
-
-### Role-based UI (Admin vs Viewer)
-
-- **Viewer**
-  - Can view Dashboard, Transactions, Insights
-  - Cannot see `+ Add Transaction`
-  - Cannot see Edit/Delete buttons
-  - Cannot open TransactionForm or ConfirmDialog
-  - Sidebar role badge shows **Viewer** (blue)
-- **Admin**
-  - Can view all pages and manage data
-  - Sees `+ Add Transaction`
-  - Sees Edit/Delete buttons on each transaction row
-  - Can open the TransactionForm modal and delete confirmation dialog
-  - Sidebar role badge shows **Admin** (purple)
-- Role switching is instant (no page reload) and updates UI via React Context.
-  - In this version, role is determined by login (no manual role switcher).
-
-#### Feature Comparison Table
+### 🔐 **Role-Based Access Control**
 
 | Feature | Viewer | Admin |
 |---------|--------|-------|
 | View Dashboard | ✅ | ✅ |
 | View Transactions | ✅ | ✅ |
 | View Insights | ✅ | ✅ |
-| Search Transactions | ✅ | ✅ |
-| Filter & Sort | ✅ | ✅ |
+| Search & Filter | ✅ | ✅ |
+| Export to CSV | ✅ | ✅ |
 | Add Transaction | ❌ | ✅ |
 | Edit Transaction | ❌ | ✅ |
 | Delete Transaction | ❌ | ✅ |
-| Export to CSV | ✅ | ✅ |
-| Toggle Dark Mode | ✅ | ✅ |
+| Dark/Light Mode | ✅ | ✅ |
 
-### Demo login credentials
+**Viewer UI**: Cleaner, distraction-free interface focused on data consumption  
+**Admin UI**: Full management capabilities with action buttons on every transaction
 
-- **Admin**: `admin` / `admin123`
-- **Viewer**: `viewer` / `viewer123`
+### 🤖 **AI Copilot (Financer)**
+- Ask natural language questions about your finances
+- Get AI-powered insights and recommendations
+- Context-aware responses based on your data and selected time range
 
-### Sign up / Register
+---
 
-- If you don’t have an account yet, go to `/signup` and register as:
-  - **Admin** (can add/edit/delete)
-  - **Viewer** (read-only)
-- Accounts are stored in your browser (`localStorage`) for demo purposes.
-## How to Use
+## 🛠️ Tech Stack
 
-### 🚀 Getting Started
-1. Open `http://localhost:5173` in your browser
-2. You can browse the app **without logging in** (public viewer mode)
-3. To test Admin features, sign in with:
-   - Email: `admin`
-   - Password: `admin123`
-4. To test Viewer mode, sign in with:
-   - Email: `viewer`
-   - Password: `viewer123`
+### Frontend
+- **React 18** (Vite) - Fast, modern UI framework
+- **Tailwind CSS** - Utility-first styling for rapid development
+- **Framer Motion** - Smooth animations and page transitions
+- **Recharts** - Interactive chart components
+- **Lucide React** - Beautiful, consistent icons
+- **React Router v6** - Client-side routing
+- **Axios** - HTTP client for API calls
 
-### 📍 Dashboard Page
-- **What you see**: Summary cards showing TotalBalance, Income, Expenses, Transaction Count
-- **Charts**: 6-month income vs expenses trend + spending category breakdown
-- **Try this**: Hover over charts for details; toggle dark mode in top-right corner
+### Backend
+- **Node.js** + **Express.js** - RESTful API server
+- **MongoDB** + **Mongoose** - NoSQL database with schema validation
+- **dotenv** - Environment configuration
+- **CORS** - Cross-origin request handling
 
-### 📋 Transactions Page
-- **As Viewer**: See all transactions, use filters, search, sort, export to CSV
-- **As Admin**: Do all above + Add/Edit/Delete transactions
-- **Try this (Admin only)**:
-  1. Click `+ Add Transaction`
-  2. Fill in date, amount, type, category, description
-  3. Click Save → Toast notification appears
-  4. Click edit icon on any row to modify
-  5. Click delete icon → Confirm deletion
-  6. Click Export button to download CSV
+### Development Tools
+- **Vite** - Lightning-fast build tool
+- **ESLint** + **Prettier** - Code quality and formatting
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js v16+ and npm v8+
+- MongoDB running locally or MongoDB Atlas account
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd finance-dashboard
+   ```
+
+2. **Backend Setup**
+   ```bash
+   cd backend
+   npm install
+   ```
+   
+   Create `.env` file:
+   ```env
+   PORT=4000
+   MONGODB_URI=mongodb://localhost:27017/finance-dashboard
+   NODE_ENV=development
+   ```
+
+3. **Frontend Setup**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+   
+   Create `.env` file:
+   ```env
+   VITE_BACKEND_URL=http://localhost:4000
+   ```
+
+### Running Locally
+
+**Terminal 1 - Backend**:
+```bash
+cd backend
+npm start
+# Server runs on http://localhost:4000
+```
+
+**Terminal 2 - Frontend**:
+```bash
+cd frontend
+npm run dev
+# App runs on http://localhost:5173
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## 📝 Demo Credentials
+
+### Login with Pre-configured Accounts
+
+**Admin Account**
+- Username: `admin`
+- Password: `admin123`
+- Permissions: Full access to all features
+
+**Viewer Account**
+- Username: `viewer`
+- Password: `viewer123`
+- Permissions: View-only access
+
+### Sign Up
+
+1. Click **"Register"** in the top navigation
+2. Enter username (3-20 characters: a-z, 0-9, underscore)
+3. Enter password (minimum 6 characters)
+4. Choose role: **Admin** or **Viewer**
+5. Click **Sign up**
+
+Accounts are stored in localStorage for demo purposes.
+
+---
+
+## 📖 How to Use
+
+### 🏠 Dashboard Page
+**Key sections:**
+- Summary cards showing key metrics and trends
+- Interactive charts for visual analysis
+- Recent transaction preview
+- Time range selector for different viewing periods
+
+**Tips:**
+- Hover over charts for detailed information
+- Click time range buttons to filter data
+- Toggle dark mode in top-right corner
+- Use search bar to filter transactions
+
+### 💳 Transactions Page
+
+**As Viewer (Read-Only):**
+- View all transactions
+- Search by description
+- Filter by type or category
+- Sort by date or amount
+- Export to CSV
+
+**As Admin (All above + Management):**
+1. Click **"+ Add Transaction"**
+   - Fill: Date, Amount, Type, Category, Description
+   - Click Save → Success notification
+2. Edit: Click ✏️ icon on any row
+3. Delete: Click 🗑️ icon, confirm deletion
+4. Export: Click "Export CSV" button
 
 ### 💡 Insights Page
-- **What you see**: Top spending category, 3-month comparison, observations
-- **Try this**: Scroll to see category breakdown bars
+- Top spending categories
+- Monthly comparisons
+- Spending observations
+- Category breakdown charts
 
-### 🔐 Authentication Demo
-- **Register**: Go to `/signup` and create new Admin/Viewer account
-- **Login**: Go to `/login` and sign in with demo credentials
-- **Logout**: Click logout in top-right corner (switches to public viewer mode)
+### 🔐 Authentication
+**Sign In:**
+1. Click "Sign in" in top navigation
+2. Select demo account or enter credentials
+3. Click "Sign in"
 
-### 🌙 Customization
-- **Toggle Theme**: Look for sun/moon icon in top bar
-- **Theme persists** in localStorage across sessions
-## Folder Structure
+**Sign Out:**
+1. Click user avatar (top-right)
+2. Click "Sign out"
+3. Continue browsing as guest
 
-The professional, relatable naming used here is:
+### 🌙 Theme Toggle
+Click the Sun/Moon icon in top-right corner to switch themes. Your preference is saved.
 
-- **`frontend/`**: React (Vite) app
-- **`backend/`**: Express + MongoDB API
+---
+
+## 📂 Project Structure
 
 ```
 finance-dashboard/
-├── frontend/
-│   ├── public/
+├── frontend/                       # React + Vite SPA
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── layout/
-│   │   │   │   ├── Sidebar.jsx
-│   │   │   │   ├── TopBar.jsx
-│   │   │   │   └── MainLayout.jsx
-│   │   │   ├── dashboard/
-│   │   │   │   ├── SummaryCards.jsx
-│   │   │   │   ├── BalanceTrendChart.jsx
-│   │   │   │   └── SpendingPieChart.jsx
-│   │   │   ├── transactions/
-│   │   │   │   ├── TransactionTable.jsx
-│   │   │   │   ├── TransactionForm.jsx
-│   │   │   │   └── FilterBar.jsx
-│   │   │   ├── insights/
-│   │   │   │   ├── InsightsPanel.jsx
-│   │   │   │   └── MonthlyComparison.jsx
-│   │   │   └── shared/
-│   │   │       ├── Badge.jsx
-│   │   │       ├── Modal.jsx
-│   │   │       ├── EmptyState.jsx
-│   │   │       └── ConfirmDialog.jsx
-│   │   ├── context/
-│   │   │   └── AppContext.jsx
-│   │   ├── pages/
-│   │   │   ├── DashboardPage.jsx
-│   │   │   ├── TransactionsPage.jsx
-│   │   │   └── InsightsPage.jsx
-│   │   ├── hooks/
-│   │   │   └── useTransactions.js
-│   │   ├── utils/
-│   │   │   ├── formatCurrency.js
-│   │   │   ├── groupByCategory.js
-│   │   │   └── getMonthlyTotals.js
-│   │   ├── constants/
-│   │   │   └── index.js
-│   │   ├── api/
-│   │   │   └── transactionsApi.js
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   └── index.html
-└── backend/
-    ├── controllers/
-    │   └── transactionController.js
-    ├── models/
-    │   └── Transaction.js
-    ├── routes/
-    │   └── transactionRoutes.js
-    ├── middleware/
-    │   └── errorHandler.js
-    ├── config/
-    │   └── db.js
-    ├── seed/
-    │   └── seedData.js
-    ├── server.js
-    └── package.json
+│   │   │   ├── layout/             # Page shell components
+│   │   │   │   ├── TopBar.jsx      # Header
+│   │   │   │   ├── UserDropdown.jsx # Auth menu
+│   │   │   │   ├── Sidebar.jsx     # Navigation
+│   │   │   │   └── MainLayout.jsx  # App container
+│   │   │   ├── dashboard/          # Dashboard components
+│   │   │   ├── transactions/       # Transaction management
+│   │   │   ├── insights/           # Analytics
+│   │   │   ├── copilot/            # AI Assistant
+│   │   │   └── shared/             # Reusable components
+│   │   ├── pages/                  # Page components
+│   │   ├── hooks/                  # Custom React hooks
+│   │   ├── context/                # Global state (AppContext)
+│   │   ├── utils/                  # Helper functions
+│   │   ├── api/                    # API configuration
+│   │   ├── constants/              # App constants & mock data
+│   │   ├── App.jsx                 # Main component
+│   │   └── main.jsx                # Entry point
+│   └── package.json
+│
+├── backend/                        # Express.js API
+│   ├── controllers/                # Route handlers
+│   ├── models/                     # Mongoose schemas
+│   ├── routes/                     # API endpoints
+│   ├── middleware/                 # Custom middleware
+│   ├── config/                     # Database config
+│   ├── seed/                       # Seed data
+│   ├── server.js                   # Express app
+│   └── package.json
+│
+└── README.md
 ```
 
-## Prerequisites
+---
 
-- Node.js (LTS recommended)
-- MongoDB running locally (or update the MongoDB connection string)
+## 🎨 Design Highlights
 
-## Setup Instructions
+### Color System
+**Light Mode**: Soft neutrals with teal/lime accents  
+**Dark Mode**: Deep grays with vibrant teal/lime highlights
 
-1. **Clone**
-   - Clone the repository into your workspace.
-2. **Install server dependencies**
-   - `cd backend && npm install`
-3. **Install client dependencies**
-   - `cd frontend && npm install`
-4. **Set up environment files**
-   - Create `backend/.env` with:
+### Responsive Breakpoints
+- **Mobile**: < 640px (full-width cards, vertical stack)
+- **Tablet**: 640-1024px (2-column layout)
+- **Desktop**: >= 1024px (3-column asymmetric layout)
 
-     ```env
-     PORT=5000
-     MONGODB_URI=mongodb://localhost:27017/finance_dashboard
-     NODE_ENV=development
+### UI Components
+- Cards with subtle shadows and hover effects
+- Gradient text for headings
+- Role badges for clear permission indication
+- Loading skeletons matching component shapes
+- Empty states with helpful guidance
+
+---
+
+## 🎬 Animations & Interactions
+
+### Entry Animations
+- Page load: Fade in + upward slide
+- Cards: Staggered entrance (80ms delays)
+- Charts: Smooth render (500-900ms)
+
+### Hover Effects
+- Cards: Lift with shadow increase
+- Buttons: Scale 1.05 + brightness
+- Rows: Left border accent + highlight
+
+### Transitions
+- Theme: Instant with smooth color changes
+- Dropdowns: Scale in/out (150ms)
+- Modals: Backdrop blur + zoom
+
+---
+
+## 🌐 Deployment
+
+### Deploy to Render
+
+1. **Backend**
+   - Push to GitHub
+   - Create Render Web Service from `backend/`
+   - Set environment variables:
+     ```
+     PORT=4000
+     MONGODB_URI=<your-mongodb-url>
+     NODE_ENV=production
      ```
 
-   - Create `frontend/.env` with:
-
-     ```env
-     VITE_API_BASE_URL=http://localhost:5000/api
+2. **Frontend**
+   - Build: `npm run build`
+   - Create Render Static Site from `frontend/dist/`
+   - Set environment:
      ```
-5. **Seed the database**
-   - Run:
-     - `node backend/seed/seedData.js`
-   - The seed script deletes existing documents and inserts exactly **50** realistic transactions spanning **Jan–Jun 2025**.
-6. **Start the server**
-   - `cd backend && npm run dev`
-7. **Start the client**
-   - `cd frontend && npm run dev`
+     VITE_BACKEND_URL=<your-backend-url>
+     ```
 
-Open the frontend at:
-- `http://localhost:5173`
+3. **Database**
+   - Use MongoDB Atlas free tier or paid plan
 
-## API Endpoint Documentation
+### Alternative Platforms
+- **Vercel**: Frontend only
+- **Netlify**: Frontend only
+- **Heroku**: Full-stack apps
+- **AWS**: Complete infrastructure
 
-Base URL: `http://localhost:5000/api`
+---
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/transactions` | Get all transactions with optional query params (`type`, `category`, `search`, `sortBy`, `sortOrder`, `startDate`, `endDate`) |
-| POST | `/transactions` | Create a new transaction |
-| PUT | `/transactions/:id` | Update a transaction by ID |
-| DELETE | `/transactions/:id` | Delete a transaction by ID |
-| GET | `/transactions/summary` | Get `{ totalBalance, totalIncome, totalExpenses, transactionCount }` |
+## 🧪 Testing Scenarios
 
-### Query Params (`GET /transactions`)
-
-- `type`: `"all"` \| `"income"` \| `"expense"`
-- `category`: `"all"` \| one of: `Salary`, `Freelance`, `Investment`, `Food`, `Rent`, `Transport`, `Shopping`, `Health`, `Utilities`, `Entertainment`, `Education`
-- `search`: string (matches `description` with case-insensitive regex)
-- `sortBy`: `"date"` \| `"amount"`
-- `sortOrder`: `"asc"` \| `"desc"`
-- `startDate`: ISO date string (optional)
-- `endDate`: ISO date string (optional)
-
-## How Role Switching Works
-
-- Login assigns a role to the session (`admin` or `viewer`) and stores it in `localStorage`.
-- Logout clears the session.
-- UI gating:
-  - Admin-only actions (`+ Add Transaction`, Edit/Delete buttons, TransactionForm modal, ConfirmDialog)
-  - Viewer mode hides all admin controls while still allowing read access.
-
-## Frontend-Only Mode vs Backend Mode
-
-### 🟢 Works WITHOUT Backend (Frontend-Only)
-- Dashboard page loads with demo data
-- Transactions page shows mock data with all filters, search, sort working
-- Insights page displays pre-calculated observations
-- Dark mode, theme persistence, authentication UI all work
-- **Limitation**: Add/Edit/Delete changes only persist in **current session** (not saved)
-
-### 🔵 Full Feature Mode (WITH Backend)
-- All features above work with **persistent data storage** (MongoDB)
-- Add/Edit/Delete transactions **save to database**
-- CSV export includes real data
-- Changes persist across browser sessions
-- Requires MongoDB running + backend server
-
-### How to Go Frontend-Only (Optional)
-If you don't have MongoDB set up:
-1. Skip the `backend/` setup entirely
-2. Just run `cd frontend && npm run dev`
-3. App automatically detects offline mode and shows mock data
-
-## ✨ Animations Showcase
-
-When you run the app, watch for these delightful animations:
-
-### Dashboard Page
-- **On Load**: Summary cards slide in from bottom with staggered timing (each 0.1s apart)
-- **Hover Cards**: Float up with glow shadow, icon rotates, background tints
-- **Value Counter**: Numbers animate from 0 to final value (currency counter)
-- **Charts**: Line chart curves animate in, pie chart slices appear sequentially
-- **Background**: Soft floating gradient blobs move continuously
-- **Sparklines**: Mini trend charts render smoothly
-
-### Transactions Page
-- **Table Rows**: Each row slides in from left with fade effect, staggered by row index
-- **Row Hover**: Left border animates to accent color, background highlights
-- **Buttons**: Edit/Delete buttons scale up on hover with smooth transitions
-- **Add Button**: Pulses to draw attention, scales on interaction
-- **Pagination**: Numbers transition smoothly between pages
-
-### Toasts & Feedback
-- **Success/Error Toasts**: Slide in from top-right with spring physics
-- **Dismiss Button**: Scales when hovered, smooth exit animation
-- **Loading States**: Skeleton screens pulse gently while fetching
-
-### Micro-interactions
-- **Theme Toggle**: Sun/moon icon rotates, page smoothly transitions between themes
-- **Form Fields**: Input focus adds smooth ring animation
-- **Delete Confirmation**: Modal scales in with spring physics
-- **Navigation**: Active nav item color transitions smoothly
-
-**Pro Tip**: Disable motion in DevTools → Rendering → Disable motion if you need a faster pace, or watch in 0.5x Chrome DevTools speed to see every frame!
-
-## Testing Scenarios
-
-### Scenario 1: Test as Viewer (Read-Only)
+### Test as Viewer
 1. Login as `viewer` / `viewer123`
-2. Verify `+ Add Transaction` button is **NOT visible**
-3. Verify Edit/Delete icons are **NOT visible** on transaction rows
-4. Verify sidebar shows **Viewer** badge (blue)
-5. Verify you can still: view, filter, search, sort, export
+2. Verify "Add Transaction" button is hidden
+3. Verify Edit/Delete icons are hidden
+4. Verify you can view and filter data
 
-### Scenario 2: Test as Admin (Full Access)
+### Test as Admin
 1. Login as `admin` / `admin123`
-2. Verify `+ Add Transaction` button **IS visible**
-3. Verify Edit/Delete icons **ARE visible** on every row
-4. Click `+ Add Transaction`:
-   - Fill all fields correctly
-   - Try submitting with empty fields (should show validation errors)
-   - Submit valid transaction → Toast notification
-   - New transaction appears in table
-5. Click edit on any row → Modal opens with pre-filled data
-6. Click delete → Confirmation dialog appears
-7. Verify sidebar shows **Admin** badge (purple)
+2. Verify action buttons are visible
+3. Try adding a transaction
+4. Edit and delete a transaction
 
-### Scenario 3: Test Offline/Backend Down
-1. Stop the backend server (or disable network)
-2. Refresh the page
-3. Verify dashboard still loads with mock data
-4. Verify toast shows: "Unable to connect to backend..."
-5. Verify app is still usable (read-only mode)
+### Test Responsiveness
+- Desktop (1024px+): Full layout
+- Tablet (640-1024px): 2-column layout
+- Mobile (< 640px): Vertical stack
 
-### Scenario 4: Test Responsive Design
-1. Open DevTools (F12) → Toggle device toolbar
-2. Test on Mobile (375px width), Tablet (768px), Desktop (1024px+)
-3. Verify:
-   - Desktop: Sidebar visible + desktop nav
-   - Tablet: Sidebar visible + responsive spacing
-   - Mobile: Sidebar hidden + bottom nav appears
-   - All tables scroll horizontally on small screens
-   - Forms stack properly on mobile
+### Test Dark Mode
+- Toggle theme and verify colors are correct
+- Check contrast in both modes
+- Verify theme persists after reload
 
-### Scenario 5: Test Filters & Search
-1. Go to Transactions page
-2. Change Type filter to "Income" → Table updates
-3. Change Category to "Food" → Table updates
-4. Search "salary" → Filters by description
-5. Change Sort to "Amount" + "Asc" → Table re-sorts
-6. Combine multiple filters → All work together
+---
 
-### Scenario 6: Test Dark Mode
-1. Click theme toggle (sun/moon icon) in top bar
-2. Verify all pages switch to dark mode
-3. Refresh page → Theme persists
-4. Verify colors are readable + contrast is good
+## 🐛 Troubleshooting
 
-## Screenshots
+| Issue | Solution |
+|-------|----------|
+| Backend offline message | Ensure backend is running: `npm start` in `backend/` folder |
+| Theme toggle not working | Check if localStorage is enabled in browser settings |
+| Transactions not saving | Verify MongoDB connection string in `.env` |
+| Build errors | Clear `node_modules` and `package-lock.json`, then reinstall |
+| CORS errors | Verify CORS configuration in backend/server.js |
+| API calls failing | Check that backend URL is correct in frontend/.env |
 
-_Placeholder_ — Add screenshots of Dashboard, Transactions (filtered + sorted), and Insights pages.
+---
 
-## Design Decisions & Architecture
+## 📋 Future Roadmap
 
-### Why React Context + useReducer?
-- **Simple**: No Redux boilerplate for this project's scope
-- **Scalable**: Reducer pattern makes state transitions predictable
-- **Maintainable**: Single source of truth in AppContext
-- **Performance**: Context only re-renders when its value changes
+### Phase 2
+- [ ] JWT authentication with secure sessions
+- [ ] Persistent user accounts in database
+- [ ] Email verification
+- [ ] Password reset functionality
+- [ ] Multi-currency support
 
-### Why Recharts?
-- **React-native**: Works seamlessly with React components
-- **Responsive**: Auto-scales with container
-- **Customizable**: Charts are highly configurable with tooltips, legends
+### Phase 3
+- [ ] Budget goals and alerts
+- [ ] Recurring transaction templates
+- [ ] Advanced report generation (PDF)
+- [ ] Expense forecasting with ML
+- [ ] Mobile app (React Native)
 
-### Component Structure
-- **Pages**: Route-level containers (DashboardPage, TransactionsPage, InsightsPage)
-- **Layout**: Persistent UI (Sidebar, TopBar, MainLayout)
-- **Dashboard**: Specific dashboard components (SummaryCards, Charts, etc.)
-- **Transactions**: Reusable transaction UI (Table, Form, FilterBar)
-- **Shared**: Reusable utilities (Modal, Toast, Badge, LoadingSkeleton, etc.)
-- **Utils**: Pure functions (formatCurrency, getMonthlyTotals, groupByCategory)
-- **Hooks**: Custom hooks for business logic (useAppContext)
+### Phase 4
+- [ ] Shared family accounts
+- [ ] Bank API integration
+- [ ] Tax reporting tools
+- [ ] Investment tracking
+- [ ] Real-time stock integration
 
-### State Normalization
-- Transactions stored as flat array in state
-- Derived data (summary, charts) computed via useMemo based on transactions
-- Filters separate from transactions (easy to clear/reset)
-- Authentication separate from business data
+---
 
-### Error Handling & Fallbacks
-- **Network Error**: Detects offline + shows friendly message + uses mock data
-- **Validation**: Forms reject invalid input (amount > 0, all fields required)
-- **Empty States**: Shows "No transactions found" instead of blank page
-- **Loading States**: Skeleton screens while fetching data
+## 🤝 Contributing
 
-## Optional Enhancements Implemented
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push branch: `git push origin feature/amazing-feature`
+5. Open Pull Request
 
-Beyond core requirements, this project includes:
+---
 
-✅ **Dark Mode** — Theme toggle with localStorage persistence  
-✅ **Data Persistence** — Auth & theme saved to localStorage  
-✅ **Mock Data Fallback** — Works offline when backend unavailable  
-✅ **Animations** — Framer Motion for smooth page transitions  
-✅ **CSV Export** — Download all transactions as spreadsheet  
-✅ **Advanced Filtering** — Multiple filters work together  
-✅ **Toast Notifications** — Success/error feedback on actions  
-✅ **Loading Skeletons** — Better UX than blank screens  
-✅ **Backend Integration** — Full NodeJS + MongoDB setup  
-✅ **Form Validation** — All inputs validated before submit  
-✅ **Responsive Design** — Mobile-first approach, tested at 3 breakpoints  
-✅ **Pagination** — Transaction table pages 10 at a time  
-✅ **Role-Based UI** — Admin/Viewer modes fully functional
+## 📄 License
 
-## Important Notes
+MIT License - Use freely for personal or commercial projects
 
-- **Frontend-only setup**: You can skip the backend entirely and just run the frontend. Mock data will be shown automatically.
-- **Database**: Update `MONGODB_URI` in `backend/.env` if MongoDB is running on a different host/port.
-- **Port conflicts**: If port 5000 or 5173 is already in use, update them in `backend/server.js` and `frontend/vite.config.js`.
-- **localStorage**: Auth tokens, theme preference, and filters are stored in browser localStorage (no server-side sessions).
-- **CORS**: Backend accepts requests from `localhost`, `127.0.0.1`, and local network IPs on common Vite ports (`5173`–`5179`). Update the origin policy if your frontend uses a different host or port.
+---
 
-## Troubleshooting
+## 👏 Acknowledgments
 
-### "Could not connect to backend"
-- **Solution**: Start backend server (`cd backend && npm run dev`) or run frontend-only (just `cd frontend && npm run dev`)
+- **Framer Motion** - Exceptional animation library
+- **Recharts** - Great charting solution
+- **Tailwind CSS** - Utility-first styling
+- **Lucide React** - Beautiful icons
+- **React Community** - Fantastic ecosystem
 
-### "MongoDB connection error"
-- **Solution**: Ensure MongoDB is running or update `MONGODB_URI` to your connection string
+---
 
-### Transactions not persisting after refresh
-- **Solution**: You're running in **frontend-only mode**. Start the backend to persist data to database.
+## 💬 Support & Issues
 
-### Port 5000/5173 already in use
-- **Solution**: Change `PORT` in `backend/.env` and update `VITE_API_BASE_URL` in `frontend/.env` accordingly
+- Check [Issues](../../issues) for similar problems
+- Create new issue with:
+  - Clear description of problem
+  - Steps to reproduce
+  - Screenshots/error logs
+  - Your environment (OS, Node version, browser)
 
-### Theme not persisting
-- **Solution**: Clear `localStorage` in DevTools or check browser privacy settings (private browsing disables localStorage)
+---
 
-### Browser Extension Error: "A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received"
-- **Cause**: This error is caused by browser extensions (ad blockers, privacy tools, developer extensions) and does not affect app functionality
-- **Solution**: Disable problematic extensions or use incognito mode for development. The error originates from `chrome-extension://` URLs, not your application code
-- **Impact**: Harmless - it's just a failed extension communication that gets logged as an uncaught promise rejection
+**Happy budgeting! 💸**
 
-## Project Statistics
-
-- **Total Components**: 20+ (reusable & modular)
-- **Lines of Code**: ~2,500+ (frontend + backend)
-- **Features**: 15+ (including optional enhancements)
-- **Browser Support**: All modern browsers (Chrome, Firefox, Safari, Edge)
-- **Mobile Responsive**: Yes (tested at 375px, 768px, 1024px+)
-
-## Author Notes
-
-This project demonstrates:
-- ✅ Professional React patterns (hooks, context, custom hooks)
-- ✅ Real-world state management without Redux
-- ✅ Responsive design with Tailwind CSS
-- ✅ Backend API design and integration
-- ✅ User authentication (frontend simulation)
-- ✅ Role-based access control on the UI
-- ✅ Error handling and graceful degradation
-- ✅ UX best practices (skeletons, toasts, empty states)
-- ✅ Component composition and reusability
-- ✅ Data visualization with Recharts
-
-All code is **original** and written for this assignment.
-
-
+*Built with ❤️ using React, Node.js, and MongoDB*

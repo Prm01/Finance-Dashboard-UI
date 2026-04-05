@@ -195,7 +195,7 @@ export const AppContextProvider = ({ children }) => {
           dispatch({
             type: "SET_NOTICE",
             payload:
-              "No transactions found — showing demo data. Add your first transaction to see real data.",
+              "You're viewing demo data. Sign in as Admin and add your first transaction to see real data.",
           });
         } else {
           dispatch({ type: "SET_TRANSACTIONS", payload: data });
@@ -207,7 +207,7 @@ export const AppContextProvider = ({ children }) => {
           dispatch({ type: "SET_TRANSACTIONS", payload: getMockTransactions() });
           dispatch({
             type: "SET_NOTICE",
-            payload: "Backend offline — showing demo data. Start the server to see real data.",
+            payload: "You're viewing demo data. Sign in as Admin and add your first transaction to see real data.",
           });
         } else {
           dispatch({ type: "SET_TRANSACTIONS", payload: [] });

@@ -1,50 +1,81 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Skeleton = ({ className = "", style = {} }) => (
-  <div className={`skeleton ${className}`} style={style} />
+  <motion.div
+    className={`skeleton bg-gradient-to-r dark:from-gray-700 dark:to-gray-600 from-gray-200 to-gray-100 ${className}`}
+    style={style}
+    animate={{ opacity: [0.6, 0.4, 0.6] }}
+    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+  />
 );
 
 export const SummaryCardsSkeleton = () => (
-  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <motion.div
+    className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.3 }}
+  >
     {[0, 1, 2, 3].map((i) => (
-      <div key={i} className="card" style={{ animationDelay: `${i * 80}ms` }}>
-        <Skeleton style={{ height: 12, width: "60%", marginBottom: 12 }} />
-        <Skeleton style={{ height: 32, width: "80%" }} />
-      </div>
+      <motion.div
+        key={i}
+        className="rounded-lg border dark:border-white/5 border-gray-200 dark:bg-gray-800 bg-white p-6 space-y-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: i * 0.08 }}
+      >
+        <Skeleton className="rounded h-4 w-24" />
+        <Skeleton className="rounded h-6 w-32" />
+        <Skeleton className="rounded h-3 w-full" />
+      </motion.div>
     ))}
-  </div>
+  </motion.div>
 );
 
 export const ChartSkeleton = () => (
-  <div className="card">
-    <Skeleton style={{ height: 16, width: "40%", marginBottom: 20 }} />
-    <Skeleton style={{ height: 240, width: "100%" }} />
-  </div>
+  <motion.div
+    className="rounded-lg border dark:border-white/5 border-gray-200 dark:bg-gray-800/50 bg-white p-6"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.3 }}
+  >
+    <Skeleton className="rounded h-4 w-40 mb-6" />
+    <Skeleton className="rounded h-64 w-full" />
+  </motion.div>
 );
 
 export const TableSkeleton = () => (
-  <div className="card p-0 overflow-hidden" style={{ padding: 0 }}>
-    <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(99,102,241,0.08)" }}>
-      <Skeleton style={{ height: 13, width: 200 }} />
+  <motion.div
+    className="rounded-lg border dark:border-white/5 border-gray-200 dark:bg-gray-800/50 bg-white overflow-hidden"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.3 }}
+  >
+    {/* Header */}
+    <div className="px-6 py-4 border-b dark:border-white/5 border-gray-200 flex gap-4">
+      <Skeleton className="rounded h-4 w-20" />
+      <Skeleton className="rounded h-4 w-32 flex-1" />
+      <Skeleton className="rounded h-4 w-20" />
+      <Skeleton className="rounded h-4 w-20" />
     </div>
+
+    {/* Rows */}
     {[0, 1, 2, 3, 4, 5].map((i) => (
-      <div
+      <motion.div
         key={i}
-        style={{
-          display: "flex",
-          gap: 20,
-          padding: "16px 20px",
-          borderBottom: "1px solid rgba(99,102,241,0.05)",
-        }}
+        className="px-6 py-4 border-b dark:border-white/5 border-gray-100 flex gap-4 items-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, delay: i * 0.05 }}
       >
-        <Skeleton style={{ height: 13, width: 90, flexShrink: 0 }} />
-        <Skeleton style={{ height: 13, width: "auto", flex: 1 }} />
-        <Skeleton style={{ height: 13, width: 70, flexShrink: 0 }} />
-        <Skeleton style={{ height: 13, width: 60, flexShrink: 0 }} />
-        <Skeleton style={{ height: 13, width: 80, flexShrink: 0 }} />
-      </div>
+        <Skeleton className="rounded h-3 w-20 shrink-0" />
+        <Skeleton className="rounded h-3 w-32 flex-1" />
+        <Skeleton className="rounded h-3 w-20 shrink-0" />
+        <Skeleton className="rounded h-3 w-16 shrink-0" />
+      </motion.div>
     ))}
-  </div>
+  </motion.div>
 );
 
 export default Skeleton;
