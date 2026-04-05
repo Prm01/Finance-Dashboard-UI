@@ -11,7 +11,7 @@ Rules:
 - Do not answer general knowledge or personal questions — the draft already reflects allowed scope.
 - Output plain text only, no markdown bold markers, under 120 words.`;
 
-import { API_BASE_URL } from "../api/baseUrl.js";
+import { API_BASE_URL, formatApiUrl } from "../api/baseUrl.js";
 
 export async function polishFinancerAnswer({
   userQuestion,
@@ -27,7 +27,9 @@ export async function polishFinancerAnswer({
 
   if (useProxy) {
     try {
-      const res = await fetch(`${apiBase}/copilot/polish`, {
+      const url = formatApiUrl("/copilot/polish");
+      console.log("[assistantGemini] POST", url);
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

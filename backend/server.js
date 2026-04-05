@@ -43,10 +43,10 @@ const corsOptions = {
     try {
       const url = new URL(origin);
 
-      // Allow localhost on common Vite development ports (5173-5179)
+      // Allow localhost on common Vite development ports (5173-5180)
       if (url.hostname === "localhost" && url.port) {
         const port = parseInt(url.port);
-        if (port >= 5173 && port <= 5179) {
+        if (port >= 5173 && port <= 5180) {
           return callback(null, true);
         }
       }
@@ -54,7 +54,7 @@ const corsOptions = {
       // Allow 127.0.0.1 on common Vite development ports
       if (url.hostname === "127.0.0.1" && url.port) {
         const port = parseInt(url.port);
-        if (port >= 5173 && port <= 5179) {
+        if (port >= 5173 && port <= 5180) {
           return callback(null, true);
         }
       }
@@ -63,7 +63,7 @@ const corsOptions = {
       const isLocalNetworkIP = /^192\.168\.|^10\.|^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(url.hostname);
       if (isLocalNetworkIP && url.port) {
         const port = parseInt(url.port);
-        if (port >= 5173 && port <= 5179) {
+        if (port >= 5173 && port <= 5180) {
           return callback(null, true);
         }
       }

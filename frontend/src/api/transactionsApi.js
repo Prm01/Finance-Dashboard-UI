@@ -1,9 +1,7 @@
 import axios from "axios";
-import { API_BASE_URL } from "./baseUrl.js";
+import { API_BASE_URL, formatApiUrl } from "./baseUrl.js";
 
-const client = axios.create({
-  baseURL: API_BASE_URL,
-});
+const client = axios.create();
 
 const buildQueryParams = (filters) => {
   if (!filters) return {};
@@ -29,7 +27,9 @@ const handleApiError = (error, fallbackMessage) => {
 
 export const fetchTransactions = async (filters) => {
   try {
-    const res = await client.get("/transactions", { params: buildQueryParams(filters) });
+    const url = formatApiUrl("/transactions");
+    console.log("[transactionsApi] GET", url);
+    const res = await client.get(url, { params: buildQueryParams(filters) });
     return res.data.data || [];
   } catch (error) {
     handleApiError(error, "Unable to load transactions. Please try again.");
@@ -57,9 +57,9 @@ const serializeTransactionBody = (data) => {
 export const createTransaction = async (data) => {
   try {
     const body = serializeTransactionBody(data);
-    const url = `${client.defaults.baseURL}/transactions`;
+    const url = formatApiUrl("/transactions");
     console.log("[transactionsApi] POST", url, body);
-    const res = await client.post("/transactions", body);
+    const res = await client.post(url, body);
     console.log("[transactionsApi] POST ok", res.status, res.data?.data?._id);
     return res.data.data;
   } catch (error) {
@@ -70,9 +70,9 @@ export const createTransaction = async (data) => {
 export const updateTransaction = async (id, data) => {
   try {
     const body = serializeTransactionBody(data);
-    const url = `${client.defaults.baseURL}/transactions/${id}`;
+    const url = formatApiUrl(`/transactions/${id}`);
     console.log("[transactionsApi] PUT", url, body);
-    const res = await client.put(`/transactions/${id}`, body);
+    const res = await client.put(url, body);
     console.log("[transactionsApi] PUT ok", res.status);
     return res.data.data;
   } catch (error) {
@@ -82,7 +82,9 @@ export const updateTransaction = async (id, data) => {
 
 export const deleteTransaction = async (id) => {
   try {
-    const res = await client.delete(`/transactions/${id}`);
+    const url = formatApiUrl(`/transactions/${id}`);
+    console.log("[transactionsApi] DELETE", url);
+    const res = await client.delete(url);
     return res.data;
   } catch (error) {
     handleApiError(error, "Unable to delete transaction. Please try again.");
@@ -91,7 +93,9 @@ export const deleteTransaction = async (id) => {
 
 export const fetchSummary = async () => {
   try {
-    const res = await client.get("/transactions/summary");
+    const url = formatApiUrl("/transactions/summary");
+    console.log("[transactionsApi] GET", url);
+    const res = await client.get(url);
     return res.data.data || { totalBalance: 0, totalIncome: 0, totalExpenses: 0, transactionCount: 0 };
   } catch (error) {
     handleApiError(error, "Unable to load summary. Please try again.");
