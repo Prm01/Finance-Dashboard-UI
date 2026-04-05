@@ -1,9 +1,7 @@
 # Finance Dashboard
-
 A modern, production-ready Finance Dashboard built with MERN stack. Designed for personal finance management with role-based access control, real-time analytics, and a polished user experience.
 
 ---
-
 ## Key Features
 
 ### Dashboard
