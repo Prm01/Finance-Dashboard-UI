@@ -11,7 +11,7 @@ Rules:
 - Do not answer general knowledge or personal questions — the draft already reflects allowed scope.
 - Output plain text only, no markdown bold markers, under 120 words.`;
 
-import { API_BASE_URL, formatApiUrl } from "../api/baseUrl.js";
+import { formatApiUrl } from "../api/baseUrl.js";
 
 export async function polishFinancerAnswer({
   userQuestion,
