@@ -1,9 +1,5 @@
 import axios from "axios";
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_BACKEND_URL ||
-  "http://localhost:4000/api";
+import { API_BASE_URL } from "./baseUrl.js";
 
 const client = axios.create({
   baseURL: API_BASE_URL,
@@ -26,9 +22,18 @@ const buildQueryParams = (filters) => {
   return params;
 };
 
+const handleApiError = (error, fallbackMessage) => {
+  console.error("[transactionsApi] API error", error);
+  throw new Error(fallbackMessage || "Unable to load data. Please try again.");
+};
+
 export const fetchTransactions = async (filters) => {
-  const res = await client.get("/transactions", { params: buildQueryParams(filters) });
-  return res.data.data || [];
+  try {
+    const res = await client.get("/transactions", { params: buildQueryParams(filters) });
+    return res.data.data || [];
+  } catch (error) {
+    handleApiError(error, "Unable to load transactions. Please try again.");
+  }
 };
 
 const serializeTransactionBody = (data) => {
@@ -50,30 +55,46 @@ const serializeTransactionBody = (data) => {
 };
 
 export const createTransaction = async (data) => {
-  const body = serializeTransactionBody(data);
-  const url = `${client.defaults.baseURL}/transactions`;
-  console.log("[transactionsApi] POST", url, body);
-  const res = await client.post("/transactions", body);
-  console.log("[transactionsApi] POST ok", res.status, res.data?.data?._id);
-  return res.data.data;
+  try {
+    const body = serializeTransactionBody(data);
+    const url = `${client.defaults.baseURL}/transactions`;
+    console.log("[transactionsApi] POST", url, body);
+    const res = await client.post("/transactions", body);
+    console.log("[transactionsApi] POST ok", res.status, res.data?.data?._id);
+    return res.data.data;
+  } catch (error) {
+    handleApiError(error, "Unable to save transaction. Please try again.");
+  }
 };
 
 export const updateTransaction = async (id, data) => {
-  const body = serializeTransactionBody(data);
-  const url = `${client.defaults.baseURL}/transactions/${id}`;
-  console.log("[transactionsApi] PUT", url, body);
-  const res = await client.put(`/transactions/${id}`, body);
-  console.log("[transactionsApi] PUT ok", res.status);
-  return res.data.data;
+  try {
+    const body = serializeTransactionBody(data);
+    const url = `${client.defaults.baseURL}/transactions/${id}`;
+    console.log("[transactionsApi] PUT", url, body);
+    const res = await client.put(`/transactions/${id}`, body);
+    console.log("[transactionsApi] PUT ok", res.status);
+    return res.data.data;
+  } catch (error) {
+    handleApiError(error, "Unable to update transaction. Please try again.");
+  }
 };
 
 export const deleteTransaction = async (id) => {
-  const res = await client.delete(`/transactions/${id}`);
-  return res.data;
+  try {
+    const res = await client.delete(`/transactions/${id}`);
+    return res.data;
+  } catch (error) {
+    handleApiError(error, "Unable to delete transaction. Please try again.");
+  }
 };
 
 export const fetchSummary = async () => {
-  const res = await client.get("/transactions/summary");
-  return res.data.data || { totalBalance: 0, totalIncome: 0, totalExpenses: 0, transactionCount: 0 };
+  try {
+    const res = await client.get("/transactions/summary");
+    return res.data.data || { totalBalance: 0, totalIncome: 0, totalExpenses: 0, transactionCount: 0 };
+  } catch (error) {
+    handleApiError(error, "Unable to load summary. Please try again.");
+  }
 };
 

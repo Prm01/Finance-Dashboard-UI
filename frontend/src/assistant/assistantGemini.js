@@ -11,6 +11,8 @@ Rules:
 - Do not answer general knowledge or personal questions — the draft already reflects allowed scope.
 - Output plain text only, no markdown bold markers, under 120 words.`;
 
+import { API_BASE_URL } from "../api/baseUrl.js";
+
 export async function polishFinancerAnswer({
   userQuestion,
   draftAnswer,
@@ -21,10 +23,7 @@ export async function polishFinancerAnswer({
   if (!draft) return draft;
 
   const useProxy = import.meta.env.VITE_FINANCER_GEMINI_PROXY !== "false";
-  const apiBase =
-    import.meta.env.VITE_API_BASE_URL ||
-    import.meta.env.VITE_BACKEND_URL ||
-    "http://localhost:4000/api";
+  const apiBase = API_BASE_URL;
 
   if (useProxy) {
     try {

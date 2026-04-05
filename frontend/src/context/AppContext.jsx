@@ -186,7 +186,7 @@ export const AppContextProvider = ({ children }) => {
 
     // Detect network/CORS/offline scenarios (axios usually has no response in these cases).
     if (!err?.response) {
-      return "Unable to connect to the backend at http://localhost:4000. Please start the server and try again.";
+      return "Unable to connect to the backend. Please check your network and backend service URL.";
     }
     return msg;
   }, []);
