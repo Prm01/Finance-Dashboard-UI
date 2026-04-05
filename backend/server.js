@@ -17,6 +17,13 @@ const PORT = process.env.PORT || 4000;
 const HOST = "0.0.0.0";
 const MONGODB_URI = process.env.MONGODB_URI;
 
+const ALLOWED_PROD_ORIGINS = [
+  process.env.FRONTEND_URL,
+  process.env.ALLOWED_ORIGIN,
+  process.env.RENDER_EXTERNAL_URL,
+  "https://finance-dashboard-ui-1.onrender.com",
+].filter(Boolean);
+
 // Put your real laptop IPv4 here from `ipconfig`
 const NETWORK_IP = "192.168.1.5";
 
@@ -61,8 +68,13 @@ const corsOptions = {
         }
       }
 
+      // Allow known production frontend origins
+      if (ALLOWED_PROD_ORIGINS.includes(origin)) {
+        return callback(null, true);
+      }
+
       // Block other origins in development
-      return callback(new Error(`CORS blocked for origin: ${origin}. Allowed: localhost/127.0.0.1/local network IPs on ports 5173-5179`));
+      return callback(new Error(`CORS blocked for origin: ${origin}. Allowed: localhost/127.0.0.1/local network IPs on ports 5173-5179 and configured frontend origins`));
     } catch (error) {
       // Invalid URL format
       return callback(new Error(`Invalid origin format: ${origin}`));

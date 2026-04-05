@@ -21,7 +21,10 @@ export async function polishFinancerAnswer({
   if (!draft) return draft;
 
   const useProxy = import.meta.env.VITE_FINANCER_GEMINI_PROXY !== "false";
-  const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api";
+  const apiBase =
+    import.meta.env.VITE_API_BASE_URL ||
+    import.meta.env.VITE_BACKEND_URL ||
+    "http://localhost:4000/api";
 
   if (useProxy) {
     try {
