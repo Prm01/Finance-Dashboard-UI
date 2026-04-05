@@ -78,7 +78,7 @@ export const SignupPage = () => {
                   Create account
                 </div>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                  Register as Admin or Viewer
+                  Choose a role and set up access to your dashboard.
                 </div>
               </div>
             </div>
@@ -170,7 +170,7 @@ export const SignupPage = () => {
           </div>
 
           <div className="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">
-            This demo signup is frontend-only (stored in your browser).
+            Account details are saved locally so you can start using the app instantly.
           </div>
         </div>
       </div>

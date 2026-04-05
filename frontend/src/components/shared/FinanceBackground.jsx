@@ -15,14 +15,15 @@ export const FinanceBackground = () => {
 
   return (
     <>
-      {/* Gradient background - Midnight Dark */}
-      <div className="fixed inset-0 -z-20 bg-gradient-to-br from-bg-950 via-bg-950 to-bg-900" />
+      {/* Light mode background */}
+      <div className="fixed inset-0 -z-20 bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:hidden" />
 
-      {/* Fintech color gradient overlay - Teal & Lime */}
-      <div className="fixed inset-0 -z-20 bg-gradient-to-t from-teal-500/8 via-transparent to-lime-500/5" />
+      {/* Dark mode background */}
+      <div className="fixed inset-0 -z-20 hidden dark:block bg-gradient-to-br from-bg-950 via-bg-950 to-bg-900" />
+      <div className="fixed inset-0 -z-20 hidden dark:block bg-gradient-to-t from-teal-500/8 via-transparent to-lime-500/5" />
 
-      {/* Animated fintech orbs - Subtle floating spheres */}
-      <div className="fixed inset-0 -z-10 overflow-hidden">
+      {/* Animated fintech orbs - Dark mode only */}
+      <div className="fixed inset-0 -z-10 hidden dark:block overflow-hidden">
         {orbs.map((orb) => (
           <motion.div
             key={orb.id}
@@ -79,9 +80,9 @@ export const FinanceBackground = () => {
         ))}
       </div>
 
-      {/* Subtle Grid Pattern - Minimal fintech */}
+      {/* Subtle Grid Pattern - Dark mode only */}
       <div
-        className="fixed inset-0 -z-20 opacity-[0.08] animate-slideInUp"
+        className="fixed inset-0 -z-20 opacity-[0.08] animate-slideInUp hidden dark:block"
         style={{
           backgroundImage: `
             linear-gradient(0deg, transparent 24%, rgba(20, 184, 166, 0.05) 25%, rgba(20, 184, 166, 0.05) 26%, transparent 27%, transparent 74%, rgba(20, 184, 166, 0.05) 75%, rgba(20, 184, 166, 0.05) 76%, transparent 77%, transparent),
@@ -91,9 +92,9 @@ export const FinanceBackground = () => {
         }}
       />
 
-      {/* Radial Gradient - Top Right (Teal) */}
+      {/* Radial Gradient - Top Right (Teal, dark mode only) */}
       <motion.div
-        className="fixed top-0 right-0 h-full w-1/3 rounded-full bg-gradient-to-r from-teal-400/10 via-teal-400/3 to-transparent blur-3xl -z-10"
+        className="fixed top-0 right-0 h-full w-1/3 rounded-full bg-gradient-to-r from-teal-400/10 via-teal-400/3 to-transparent blur-3xl -z-10 hidden dark:block"
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.2, 0.4, 0.2],
@@ -105,9 +106,9 @@ export const FinanceBackground = () => {
         }}
       />
 
-      {/* Radial Gradient - Bottom Left (Lime) */}
+      {/* Radial Gradient - Bottom Left (Lime, dark mode only) */}
       <motion.div
-        className="fixed bottom-0 left-0 h-full w-1/3 rounded-full bg-gradient-to-r from-lime-400/10 via-lime-400/3 to-transparent blur-3xl -z-10"
+        className="fixed bottom-0 left-0 h-full w-1/3 rounded-full bg-gradient-to-r from-lime-400/10 via-lime-400/3 to-transparent blur-3xl -z-10 hidden dark:block"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.15, 0.3, 0.15],
@@ -119,9 +120,9 @@ export const FinanceBackground = () => {
         }}
       />
 
-      {/* Center Subtle Glow - Teal accent */}
+      {/* Center Subtle Glow - Teal accent (dark mode only) */}
       <motion.div
-        className="fixed top-1/2 left-1/2 h-2/3 w-2/3 rounded-full bg-gradient-to-r from-teal-400/8 via-teal-400/4 to-transparent blur-3xl -z-10 -translate-x-1/2 -translate-y-1/2"
+        className="fixed top-1/2 left-1/2 h-2/3 w-2/3 rounded-full bg-gradient-to-r from-teal-400/8 via-teal-400/4 to-transparent blur-3xl -z-10 -translate-x-1/2 -translate-y-1/2 hidden dark:block"
         animate={{
           scale: [0.8, 1.1, 0.8],
           opacity: [0.1, 0.25, 0.1],

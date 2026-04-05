@@ -10,21 +10,25 @@ import {
 
 const useCountUp = (target, duration = 1200) => {
   const [current, setCurrent] = React.useState(0);
+  const displayedValueRef = React.useRef(0);
 
   React.useEffect(() => {
     if (!target && target !== 0) {
       setCurrent(0);
+      displayedValueRef.current = 0;
       return;
     }
 
     const start = performance.now();
-    const from = 0;
+    const from = displayedValueRef.current;
 
     const tick = (now) => {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setCurrent(Math.round(from + (Number(target) - from) * eased));
+      const newValue = Math.round(from + (Number(target) - from) * eased);
+      setCurrent(newValue);
+      displayedValueRef.current = newValue;
       if (progress < 1) requestAnimationFrame(tick);
     };
 
@@ -130,7 +134,7 @@ export const SummaryCards = ({ transactions = [], allTransactions = [], selected
   const isOverall = selectedRange === "overall";
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 items-stretch">
       {cardConfigs.map((cfg, index) => {
         const AnimatedValue = animatedValues[cfg.key];
         const changeVal = changes[cfg.key];
@@ -140,7 +144,7 @@ export const SummaryCards = ({ transactions = [], allTransactions = [], selected
         return (
           <motion.div
             key={cfg.key}
-            className="card p-5 sm:p-6"
+            className="card p-5 sm:p-6 h-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}

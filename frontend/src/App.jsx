@@ -5,6 +5,10 @@ import { MainLayout } from "./components/layout/MainLayout.jsx";
 import { DashboardPage } from "./pages/DashboardPage.jsx";
 import { TransactionsPage } from "./pages/TransactionsPage.jsx";
 import { InsightsPage } from "./pages/InsightsPage.jsx";
+import { FinancerPage } from "./pages/FinancerPage.jsx";
+import { BudgetsPage } from "./pages/BudgetsPage.jsx";
+import { ProfilePage } from "./pages/ProfilePage.jsx";
+import { SettingsPage } from "./pages/SettingsPage.jsx";
 import { LoginPage } from "./pages/LoginPage.jsx";
 import { SignupPage } from "./pages/SignupPage.jsx";
 import { Toast } from "./components/shared/Toast.jsx";
@@ -32,6 +36,10 @@ export default function App() {
             <Route path="/" element={<DashboardPage />} />
             <Route path="/transactions" element={<TransactionsPage />} />
             <Route path="/insights" element={<InsightsPage />} />
+            <Route path="/financer" element={<FinancerPage />} />
+            <Route path="/budgets" element={<BudgetsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

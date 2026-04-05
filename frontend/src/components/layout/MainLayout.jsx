@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { useAppContext } from "../../hooks/useTransactions.js";
-import { LayoutDashboard, BarChart3, ListChecks, Menu, X } from "lucide-react";
+import { LayoutDashboard, BarChart3, ListChecks, Menu, X, Columns } from "lucide-react";
 import { Sidebar } from "./Sidebar.jsx";
 import { TopBar } from "./TopBar.jsx";
 import TickerBar from "../shared/TickerBar.jsx";
@@ -16,7 +16,7 @@ const nav = [
 ];
 
 export const MainLayout = () => {
-  const { dispatch } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -27,7 +27,17 @@ export const MainLayout = () => {
         ? "dashboard"
         : path === "/transactions"
           ? "transactions"
-          : "insights";
+          : path === "/insights"
+            ? "insights"
+            : path === "/financer"
+              ? "financer"
+              : path === "/budgets"
+                ? "budgets"
+                : path === "/profile"
+                  ? "profile"
+                  : path === "/settings"
+                    ? "settings"
+                    : "dashboard";
     dispatch({ type: "SET_PAGE", payload: page });
   }, [dispatch, location.pathname]);
 
@@ -37,7 +47,7 @@ export const MainLayout = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen bg-bg-base dark:bg-bg-950 text-text-primary dark:text-text-100">
+    <div className="min-h-screen bg-white dark:bg-bg-950 text-text-primary dark:text-text-100">
       {/* Finance Background */}
       <FinanceBackground />
 
@@ -45,11 +55,13 @@ export const MainLayout = () => {
       <FloatingElements />
       
       {/* Main Content */}
-      <div className="relative z-20 flex min-h-screen flex-col md:flex-row">
+      <div className="relative z-20 flex min-h-screen flex-col md:flex-row bg-white dark:bg-bg-950">
         {/* Desktop Sidebar */}
-        <aside className="hidden w-[220px] shrink-0 dark:bg-sidebar-900 bg-gray-100 dark:border-white/5 border-gray-300 border-r md:block">
-          <Sidebar />
-        </aside>
+        {state.sidebarVisible && (
+          <aside className="hidden w-[220px] shrink-0 dark:bg-sidebar-900 bg-gray-100 dark:border-white/5 border-gray-300 border-r md:block">
+            <Sidebar />
+          </aside>
+        )}
 
         {/* Mobile Sidebar Menu */}
         {mobileMenuOpen && (
@@ -65,10 +77,36 @@ export const MainLayout = () => {
         )}
 
         {/* Main Content Area */}
+        {!state.sidebarVisible && (
+          <div className="fixed left-4 top-24 z-40 hidden md:block">
+            <button
+              type="button"
+              onClick={() => dispatch({ type: "TOGGLE_SIDEBAR" })}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-lg shadow-slate-900/5 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-950 dark:text-white dark:hover:bg-slate-900"
+            >
+              <Columns size={16} className="text-teal-600 dark:text-teal-400" />
+              Show sidebar
+            </button>
+          </div>
+        )}
         <div className="min-w-0 flex-1">
           {/* Top Bar with Mobile Menu Button */}
-          <div className="flex items-center justify-between dark:bg-card-900 bg-white dark:border-white/5 border-gray-200 border-b px-4 py-3 sm:px-5 md:hidden shadow-sm dark:shadow-card\">
-            <h1 className="text-lg font-bold dark:text-teal-400 text-teal-600">Finance Dashboard</h1>
+          <div className="flex items-center justify-between dark:bg-card-900 bg-white dark:border-white/5 border-gray-200 border-b px-4 py-3 sm:px-5 md:hidden shadow-sm dark:shadow-card">
+            <h1 className="text-lg font-bold dark:text-teal-400 text-teal-600 capitalize">
+              {state.activePage === "transactions"
+                ? "Transactions"
+                : state.activePage === "insights"
+                ? "Insights"
+                : state.activePage === "financer"
+                ? "Financer"
+                : state.activePage === "budgets"
+                ? "Budgets"
+                : state.activePage === "profile"
+                ? "Profile"
+                : state.activePage === "settings"
+                ? "Settings"
+                : "Dashboard"}
+            </h1>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="rounded-lg p-2 dark:hover:bg-teal-500/20 hover:bg-teal-100 dark:text-teal-400 text-teal-600 transition-colors duration-200 dark:hover:shadow-teal-glow"
@@ -80,7 +118,7 @@ export const MainLayout = () => {
           <TickerBar />
           <TopBar />
           
-          <main className="px-4 pb-20 pt-4 sm:pt-6 md:px-6 md:pb-6 md:pt-8 bg-bg-base dark:bg-bg-950">
+          <main className="px-4 pb-28 pt-4 sm:pt-6 md:px-6 md:pb-24 md:pt-8 bg-white dark:bg-bg-950">
             <div key={location.pathname} className="animate-fadeIn">
               <Outlet />
             </div>

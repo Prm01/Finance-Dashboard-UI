@@ -10,21 +10,25 @@ import {
 
 const useCountUp = (target, duration = 1200) => {
   const [current, setCurrent] = React.useState(0);
+  const displayedValueRef = React.useRef(0);
 
   React.useEffect(() => {
     if (!target && target !== 0) {
       setCurrent(0);
+      displayedValueRef.current = 0;
       return;
     }
 
     const start = performance.now();
-    const from = 0;
+    const from = displayedValueRef.current;
 
     const tick = (now) => {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setCurrent(Math.round(from + (Number(target) - from) * eased));
+      const newValue = Math.round(from + (Number(target) - from) * eased);
+      setCurrent(newValue);
+      displayedValueRef.current = newValue;
       if (progress < 1) requestAnimationFrame(tick);
     };
 

@@ -24,10 +24,11 @@ const initialState = {
   error: null,
   notice: null,
   isAuthenticated: false,
-  user: null, // { username, role }
+  user: null, // { username, role, displayName, avatarUrl }
   role: "viewer", // derived from user.role after login (kept for existing UI checks)
   filters: defaultFilters,
   activePage: "dashboard",
+  sidebarVisible: true,
 };
 
 const reducer = (state, action) => {
@@ -74,12 +75,24 @@ const reducer = (state, action) => {
           (t) => String(t._id || t.id) !== String(action.payload)
         ),
       };
+    case "UPDATE_USER":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload,
+        },
+      };
     case "SET_ROLE":
       return { ...state, role: action.payload };
     case "SET_FILTERS":
       return { ...state, filters: { ...state.filters, ...action.payload } };
     case "SET_PAGE":
       return { ...state, activePage: action.payload };
+    case "SET_SIDEBAR_VISIBLE":
+      return { ...state, sidebarVisible: action.payload };
+    case "TOGGLE_SIDEBAR":
+      return { ...state, sidebarVisible: !state.sidebarVisible };
     default:
       return state;
   }
@@ -89,16 +102,26 @@ const STORAGE_KEYS = {
   auth: "fd_auth",
   users: "fd_users",
   filters: "fd_filters",
+  sidebar: "fd_sidebar_visible",
 };
 
 const coerceRole = (v) => (v === "admin" ? "admin" : "viewer");
+const coerceBoolean = (v) => String(v) === "true";
 const coerceAuth = (raw) => {
   const parsed = safeParseJSON(raw);
   if (!parsed || !parsed.user) return { isAuthenticated: false, user: null };
   const role = coerceRole(parsed.user.role);
   const username = String(parsed.user.username || "").trim();
   if (!username) return { isAuthenticated: false, user: null };
-  return { isAuthenticated: true, user: { username, role } };
+  return {
+    isAuthenticated: true,
+    user: {
+      username,
+      role,
+      displayName: String(parsed.user.displayName || username).trim(),
+      avatarUrl: parsed.user.avatarUrl || null,
+    },
+  };
 };
 
 const safeParseJSON = (raw) => {
@@ -118,12 +141,14 @@ export const AppContextProvider = ({ children }) => {
         ? { ...init.filters, ...storedFilters }
         : init.filters;
     const { sortBy: _sb, sortOrder: _so, ...rest } = merged;
+    const storedSidebar = localStorage.getItem(STORAGE_KEYS.sidebar);
     return {
       ...init,
       isAuthenticated: auth.isAuthenticated,
       user: auth.user,
       role: auth.user?.role || "viewer",
       filters: { ...init.filters, ...rest },
+      sidebarVisible: storedSidebar === null ? true : coerceBoolean(storedSidebar),
     };
   });
 
@@ -195,7 +220,7 @@ export const AppContextProvider = ({ children }) => {
           dispatch({
             type: "SET_NOTICE",
             payload:
-              "You're viewing demo data. Sign in as Admin and add your first transaction to see real data.",
+              "You're viewing demo data. Sign in as Admin and add your first transaction to see real magic -- data.",
           });
         } else {
           dispatch({ type: "SET_TRANSACTIONS", payload: data });
@@ -207,7 +232,7 @@ export const AppContextProvider = ({ children }) => {
           dispatch({ type: "SET_TRANSACTIONS", payload: getMockTransactions() });
           dispatch({
             type: "SET_NOTICE",
-            payload: "You're viewing demo data. Sign in as Admin and add your first transaction to see real data.",
+            payload: "You're viewing demo data. Sign in as Admin and add your first transaction to see real magic -- data.",
           });
         } else {
           dispatch({ type: "SET_TRANSACTIONS", payload: [] });
@@ -232,6 +257,10 @@ export const AppContextProvider = ({ children }) => {
   }, [state.filters]);
 
   useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.sidebar, String(state.sidebarVisible));
+  }, [state.sidebarVisible]);
+
+  useEffect(() => {
     // Everyone (including guests) can browse the dashboard; load data on mount.
     loadSummary();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -245,8 +274,8 @@ export const AppContextProvider = ({ children }) => {
     const existing = safeParseJSON(localStorage.getItem(STORAGE_KEYS.users));
     if (Array.isArray(existing) && existing.length > 0) return existing;
     const defaults = [
-      { username: "admin", password: "admin123", role: "admin" },
-      { username: "viewer", password: "viewer123", role: "viewer" },
+      { username: "admin", password: "admin123", role: "admin", displayName: "Administrator", avatarUrl: null },
+      { username: "viewer", password: "viewer123", role: "viewer", displayName: "Finance Viewer", avatarUrl: null },
     ];
     localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(defaults));
     return defaults;
@@ -265,7 +294,15 @@ export const AppContextProvider = ({ children }) => {
       const users = getUsers();
       const match = users.find((a) => a.username === u && a.password === p);
       if (!match) throw new Error("Invalid username or password.");
-      dispatch({ type: "LOGIN", payload: { username: match.username, role: match.role } });
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          username: match.username,
+          role: match.role,
+          displayName: String(match.displayName || match.username).trim(),
+          avatarUrl: match.avatarUrl || null,
+        },
+      });
     },
     [getUsers]
   );
@@ -286,7 +323,16 @@ export const AppContextProvider = ({ children }) => {
         throw new Error("This username is already registered. Please sign in.");
       }
 
-      const next = [...users, { username: u, password: p, role: r }];
+      const next = [
+        ...users,
+        {
+          username: u,
+          password: p,
+          role: r,
+          displayName: u,
+          avatarUrl: null,
+        },
+      ];
       localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(next));
       return true;
     },
@@ -301,6 +347,30 @@ export const AppContextProvider = ({ children }) => {
     loadSummary();
     loadTransactions();
   }, [loadSummary, loadTransactions]);
+
+  const toggleSidebar = useCallback(() => {
+    dispatch({ type: "TOGGLE_SIDEBAR" });
+  }, [dispatch]);
+
+  const updateUserProfile = useCallback(
+    async (updates) => {
+      if (!state.user?.username) return;
+      dispatch({ type: "UPDATE_USER", payload: updates });
+
+      const mergedUser = { ...state.user, ...updates };
+      const authPayload = { isAuthenticated: true, user: mergedUser };
+      localStorage.setItem(STORAGE_KEYS.auth, JSON.stringify(authPayload));
+
+      const users = getUsers().map((user) =>
+        user.username === state.user.username ? { ...user, ...updates } : user
+      );
+      localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(users));
+
+      pushToast({ type: "success", title: "Profile updated", message: "Your profile details are now saved." });
+      return mergedUser;
+    },
+    [getUsers, pushToast, state.user]
+  );
 
   const txId = (t) => String(t?._id ?? t?.id ?? "");
 
@@ -435,6 +505,8 @@ export const AppContextProvider = ({ children }) => {
       createTransaction: handleCreate,
       updateTransaction: handleUpdate,
       deleteTransaction: handleDelete,
+      updateUserProfile,
+      toggleSidebar,
       assistantDashboardRange,
       setAssistantDashboardRange,
     }),
@@ -452,6 +524,8 @@ export const AppContextProvider = ({ children }) => {
       handleCreate,
       handleUpdate,
       handleDelete,
+      updateUserProfile,
+      toggleSidebar,
       assistantDashboardRange,
     ]
   );

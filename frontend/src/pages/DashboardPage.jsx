@@ -118,7 +118,7 @@ export const DashboardPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="h-[380px] md:h-[420px]">
+                  <div className="h-[320px] md:h-[420px]">
                     <IncomeExpenseTrendChart transactions={filteredTransactions} />
                   </div>
                 </div>
@@ -141,7 +141,7 @@ export const DashboardPage = () => {
                         Where your money goes
                       </p>
                     </div>
-                    <div className="flex-1 h-[300px]">
+                    <div className="flex-1 h-[280px] md:h-[300px]">
                       <SpendingPieChart transactions={filteredTransactions} />
                     </div>
                   </div>
@@ -205,7 +205,7 @@ export const DashboardPage = () => {
                       Last 6 months
                     </p>
                   </div>
-                  <div className="h-[320px]">
+                  <div className="h-[280px] md:h-[320px]">
                     <BalanceTrendChart transactions={filteredTransactions} />
                   </div>
                 </div>

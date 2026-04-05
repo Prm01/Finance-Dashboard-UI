@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronDown, LogOut, SettingsIcon, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppContext } from "../../hooks/useTransactions.js";
 
 export const UserDropdown = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const navigate = useNavigate();
   const { state, logout, pushToast } = useAppContext();
   const dropdownRef = React.useRef(null);
 
@@ -27,7 +29,8 @@ export const UserDropdown = () => {
     setIsOpen(false);
   };
 
-  const userInitial = state.user?.username?.[0]?.toUpperCase() || "U";
+  const displayName = state.user?.displayName || state.user?.username || "User";
+  const userInitial = displayName?.[0]?.toUpperCase() || "U";
   const roleLabel = state.role === "admin" ? "Administrator" : "Viewer";
   const roleColor = state.role === "admin" 
     ? "from-purple-400 to-indigo-500" 
@@ -42,8 +45,12 @@ export const UserDropdown = () => {
         aria-label="User menu"
       >
         {/* User Avatar */}
-        <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${roleColor} flex items-center justify-center text-xs font-bold text-white shadow-sm`}>
-          {userInitial}
+        <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center text-xs font-bold text-yellow-300 shadow-sm">
+          {state.user?.avatarUrl ? (
+            <img src={state.user.avatarUrl} alt="User avatar" className="h-full w-full rounded-full object-cover" />
+          ) : (
+            userInitial
+          )}
         </div>
         
         {/* Role Badge - Only on desktop */}
@@ -70,7 +77,7 @@ export const UserDropdown = () => {
             {/* Header with User Info */}
             <div className="px-4 py-3 dark:bg-gray-900/50 bg-gray-50 border-b dark:border-white/5 border-gray-200">
               <p className="text-sm font-semibold dark:text-text-200 text-text-900">
-                {state.user?.username}
+                {displayName}
               </p>
               <p className={`text-xs mt-0.5 font-medium ${
                 state.role === "admin"
@@ -94,7 +101,8 @@ export const UserDropdown = () => {
             <div className="py-1">
               <button
                 onClick={() => {
-                  pushToast({ type: "info", title: "Coming soon", message: "Profile settings will be available in a future update." });
+                  navigate("/profile");
+                  setIsOpen(false);
                 }}
                 className="w-full px-4 py-2.5 text-sm dark:text-text-300 text-text-700 flex items-center gap-3 transition-all duration-150 dark:hover:bg-white/5 hover:bg-gray-100"
               >
@@ -104,7 +112,8 @@ export const UserDropdown = () => {
 
               <button
                 onClick={() => {
-                  pushToast({ type: "info", title: "Coming soon", message: "Settings will be available in a future update." });
+                  navigate("/settings");
+                  setIsOpen(false);
                 }}
                 className="w-full px-4 py-2.5 text-sm dark:text-text-300 text-text-700 flex items-center gap-3 transition-all duration-150 dark:hover:bg-white/5 hover:bg-gray-100"
               >

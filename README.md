@@ -1,12 +1,12 @@
-# 💰 Finance Dashboard
+# Finance Dashboard
 
 A modern, production-ready Finance Dashboard built with MERN stack. Designed for personal finance management with role-based access control, real-time analytics, and a polished user experience.
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-### 📊 **Dashboard**
+### Dashboard
 - **Summary Cards**: Total Balance, Income, Expenses, Transaction Count with period-over-period % change
 - **Financial Overview**: 6-month income vs expenses trend chart with interactive tooltips
 - **Spending Breakdown**: Category-wise expense distribution pie chart with percentages
@@ -14,23 +14,23 @@ A modern, production-ready Finance Dashboard built with MERN stack. Designed for
 - **Time Range Filter**: View data for custom periods (1M, 3M, 6M, 1Y, Overall)
 - **Budget Progress**: Visual progress indicators for spending limits
 
-### 💼 **Transactions Management**
-- ✅ **View**: Browse all transactions with rich filtering and sorting
-- ✅ **Search**: Real-time search by description (case-insensitive)
-- ✅ **Filter**: By type (Income/Expense), category, and date range
-- ✅ **Sort**: By date or amount (ascending/descending)
-- ✅ **Export**: Download transactions as CSV
-- ✅ **Pagination**: Adjustable rows per page (5-50)
-- 🔒 **Admin Only**: Add, edit, delete transactions (Viewers are read-only)
+### Transactions Management
+- **View**: Browse all transactions with rich filtering and sorting
+- **Search**: Real-time search by description (case-insensitive)
+- **Filter**: By type (Income/Expense), category, and date range
+- **Sort**: By date or amount (ascending/descending)
+- **Export**: Download transactions as CSV
+- **Pagination**: Adjustable rows per page (5-50)
+- **Admin Only**: Add, edit, delete transactions (Viewers are read-only)
 
-### 💡 **Insights & Analytics**
+### Insights & Analytics
 - Top spending category with % share indicator
 - 3-month period comparison (Income, Expenses, Net change)
 - Auto-generated observations based on spending patterns
 - Category breakdown with horizontal bar charts
 - Trend analysis and spending recommendations
 
-### 🎨 **User Experience**
+### User Experience
 - **Dark/Light Theme**: Toggle with persistent storage (localStorage)
 - **Fully Responsive**: Mobile, tablet, and desktop layouts
 - **Smooth Animations**: Framer Motion for page transitions, card hover effects, and micro-interactions
@@ -40,31 +40,31 @@ A modern, production-ready Finance Dashboard built with MERN stack. Designed for
 - **Toast Notifications**: Success, error, and info feedback
 - **Accessibility**: Proper contrast, clear buttons, semantic HTML
 
-### 🔐 **Role-Based Access Control**
+### Role-Based Access Control
 
 | Feature | Viewer | Admin |
 |---------|--------|-------|
-| View Dashboard | ✅ | ✅ |
-| View Transactions | ✅ | ✅ |
-| View Insights | ✅ | ✅ |
-| Search & Filter | ✅ | ✅ |
-| Export to CSV | ✅ | ✅ |
-| Add Transaction | ❌ | ✅ |
-| Edit Transaction | ❌ | ✅ |
-| Delete Transaction | ❌ | ✅ |
-| Dark/Light Mode | ✅ | ✅ |
+| View Dashboard | Yes | Yes |
+| View Transactions | Yes | Yes |
+| View Insights | Yes | Yes |
+| Search & Filter | Yes | Yes |
+| Export to CSV | Yes | Yes |
+| Add Transaction | No | Yes |
+| Edit Transaction | No | Yes |
+| Delete Transaction | No | Yes |
+| Dark/Light Mode | Yes | Yes |
 
 **Viewer UI**: Cleaner, distraction-free interface focused on data consumption  
 **Admin UI**: Full management capabilities with action buttons on every transaction
 
-### 🤖 **AI Copilot (Financer)**
+### AI Copilot (Financer)
 - Ask natural language questions about your finances
 - Get AI-powered insights and recommendations
 - Context-aware responses based on your data and selected time range
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React 18** (Vite) - Fast, modern UI framework
@@ -87,7 +87,7 @@ A modern, production-ready Finance Dashboard built with MERN stack. Designed for
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js v16+ and npm v8+
@@ -146,7 +146,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## 📝 Demo Credentials
+## Demo Credentials
 
 ### Login with Pre-configured Accounts
 
@@ -172,9 +172,9 @@ Accounts are stored in localStorage for demo purposes.
 
 ---
 
-## 📖 How to Use
+## How to Use
 
-### 🏠 Dashboard Page
+### Dashboard Page
 **Key sections:**
 - Summary cards showing key metrics and trends
 - Interactive charts for visual analysis
@@ -187,7 +187,7 @@ Accounts are stored in localStorage for demo purposes.
 - Toggle dark mode in top-right corner
 - Use search bar to filter transactions
 
-### 💳 Transactions Page
+### Transactions Page
 
 **As Viewer (Read-Only):**
 - View all transactions
@@ -200,17 +200,17 @@ Accounts are stored in localStorage for demo purposes.
 1. Click **"+ Add Transaction"**
    - Fill: Date, Amount, Type, Category, Description
    - Click Save → Success notification
-2. Edit: Click ✏️ icon on any row
-3. Delete: Click 🗑️ icon, confirm deletion
+2. Edit: Click edit icon on any row
+3. Delete: Click delete icon, confirm deletion
 4. Export: Click "Export CSV" button
 
-### 💡 Insights Page
+### Insights Page
 - Top spending categories
 - Monthly comparisons
 - Spending observations
 - Category breakdown charts
 
-### 🔐 Authentication
+### Authentication
 **Sign In:**
 1. Click "Sign in" in top navigation
 2. Select demo account or enter credentials
@@ -221,12 +221,12 @@ Accounts are stored in localStorage for demo purposes.
 2. Click "Sign out"
 3. Continue browsing as guest
 
-### 🌙 Theme Toggle
+### Theme Toggle
 Click the Sun/Moon icon in top-right corner to switch themes. Your preference is saved.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 finance-dashboard/
@@ -268,7 +268,7 @@ finance-dashboard/
 
 ---
 
-## 🎨 Design Highlights
+## Design Highlights
 
 ### Color System
 **Light Mode**: Soft neutrals with teal/lime accents  
@@ -288,7 +288,7 @@ finance-dashboard/
 
 ---
 
-## 🎬 Animations & Interactions
+## Animations & Interactions
 
 ### Entry Animations
 - Page load: Fade in + upward slide
@@ -307,7 +307,7 @@ finance-dashboard/
 
 ---
 
-## 🌐 Deployment
+## Deployment
 
 ### Deploy to Render
 
@@ -340,7 +340,7 @@ finance-dashboard/
 
 ---
 
-## 🧪 Testing Scenarios
+## Testing Scenarios
 
 ### Test as Viewer
 1. Login as `viewer` / `viewer123`
@@ -366,7 +366,7 @@ finance-dashboard/
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
@@ -379,7 +379,7 @@ finance-dashboard/
 
 ---
 
-## 📋 Future Roadmap
+## Future Roadmap
 
 ### Phase 2
 - [ ] JWT authentication with secure sessions
@@ -404,7 +404,7 @@ finance-dashboard/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create feature branch: `git checkout -b feature/amazing-feature`
@@ -414,13 +414,13 @@ finance-dashboard/
 
 ---
 
-## 📄 License
+## License
 
 MIT License - Use freely for personal or commercial projects
 
 ---
 
-## 👏 Acknowledgments
+## Acknowledgments
 
 - **Framer Motion** - Exceptional animation library
 - **Recharts** - Great charting solution
@@ -430,7 +430,7 @@ MIT License - Use freely for personal or commercial projects
 
 ---
 
-## 💬 Support & Issues
+## Support & Issues
 
 - Check [Issues](../../issues) for similar problems
 - Create new issue with:
@@ -441,6 +441,6 @@ MIT License - Use freely for personal or commercial projects
 
 ---
 
-**Happy budgeting! 💸**
+**Happy budgeting!**
 
-*Built with ❤️ using React, Node.js, and MongoDB*
+*Built with love using React, Node.js, and MongoDB*

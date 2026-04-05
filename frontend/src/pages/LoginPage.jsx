@@ -76,10 +76,10 @@ export const LoginPage = () => {
               </div>
               <div>
                 <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  Finance Dashboard
+                  Welcome to Finance Dashboard
                 </div>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                  Sign in to continue
+                  Sign in to check your balances, spending, and insights.
                 </div>
               </div>
             </div>
@@ -92,7 +92,7 @@ export const LoginPage = () => {
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-purple-200 bg-purple-50 px-4 py-2.5 text-sm font-semibold text-purple-800 transition-all duration-200 hover:bg-purple-100 disabled:opacity-60 dark:border-purple-900/40 dark:bg-purple-900/20 dark:text-purple-200 dark:hover:bg-purple-900/30"
               >
                 <ShieldCheck size={18} />
-                Login as Admin
+                Admin access
               </button>
               <button
                 type="button"
@@ -101,29 +101,28 @@ export const LoginPage = () => {
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-semibold text-blue-800 transition-all duration-200 hover:bg-blue-100 disabled:opacity-60 dark:border-blue-900/40 dark:bg-blue-900/20 dark:text-blue-200 dark:hover:bg-blue-900/30"
               >
                 <User size={18} />
-                Login as Viewer
+                Viewer access
               </button>
             </div>
 
             {intent ? (
               <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200">
-                You’re about to sign in as{" "}
-                <span className="font-semibold">
+                You’re signing in as <span className="font-semibold">
                   {intent === "admin" ? "Admin" : "Viewer"}
                 </span>
-                . Click <span className="font-semibold">Sign in</span> to continue.
+                . Then just click <span className="font-semibold">Sign in</span>.
               </div>
             ) : null}
 
             <div className="mt-5 text-xs text-gray-500 dark:text-gray-400">
-              Demo credentials:
+              Need a quick start? Try these credentials:
               <span className="ml-2 font-semibold text-gray-700 dark:text-gray-200">admin / admin123</span>
               <span className="mx-2">•</span>
               <span className="font-semibold text-gray-700 dark:text-gray-200">viewer / viewer123</span>
             </div>
 
             <form onSubmit={submit} className="mt-6 space-y-4">
-              <Field label="Username" hint="Use admin or viewer">
+              <Field label="Username" hint="Enter your username">
                 <input
                   value={form.username}
                   onChange={(e) => setForm((p) => ({ ...p, username: e.target.value }))}
@@ -150,10 +149,6 @@ export const LoginPage = () => {
                 {submitting ? "Signing in..." : "Sign in"}
               </button>
             </form>
-          </div>
-
-          <div className="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">
-            This demo login is frontend-only (no real authentication).
           </div>
 
           <div className="mt-3 text-center text-sm text-gray-600 dark:text-gray-300">

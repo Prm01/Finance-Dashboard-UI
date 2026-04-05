@@ -8,6 +8,10 @@ const titleByPage = {
   dashboard: "Dashboard",
   transactions: "Transactions",
   insights: "Insights",
+  financer: "Financer",
+  budgets: "Budgets",
+  profile: "Profile",
+  settings: "Settings",
 };
 
 export const TopBar = () => {
@@ -47,6 +51,7 @@ export const TopBar = () => {
   }).format(now);
 
   const isAuthed = state.isAuthenticated;
+  const pageTitle = titleByPage[state.activePage] || "Dashboard";
 
   return (
     <div className="sticky top-0 z-10 dark:border-white/5 border-gray-200 border-b dark:bg-gray-950 bg-white shadow-sm dark:shadow-lg dark:shadow-black/20">
@@ -56,12 +61,12 @@ export const TopBar = () => {
           <div className="min-w-fit">
             <div className="hidden sm:block">
               <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r dark:from-teal-400 dark:via-lime-400 dark:to-teal-400 from-teal-600 via-lime-600 to-teal-600 bg-clip-text text-transparent flex items-center gap-2">
-                💰 Finance Dashboard
+                💰 {pageTitle}
               </h1>
             </div>
             <div className="sm:hidden">
               <h1 className="text-lg font-bold bg-gradient-to-r dark:from-teal-400 dark:via-lime-400 dark:to-teal-400 from-teal-600 via-lime-600 to-teal-600 bg-clip-text text-transparent">
-                📊
+                {pageTitle}
               </h1>
             </div>
             <div className="mt-0.5 flex items-center gap-1.5 text-xs dark:text-text-400 text-text-500">
@@ -88,6 +93,20 @@ export const TopBar = () => {
 
           {/* Right: Actions (Auth or Theme Toggle) */}
           <div className="flex items-center gap-2 sm:gap-3">
+              {/* Theme Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+              className="inline-flex items-center justify-center rounded-lg dark:border-white/10 border-gray-200 dark:bg-white/5 bg-gray-50 w-8 h-8 sm:w-9 sm:h-9 transition-all duration-200 dark:hover:bg-white/10 hover:bg-gray-100 border dark:hover:shadow-lg hover:shadow-md"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun size={16} className="dark:text-lime-400 text-lime-600" />
+              ) : (
+                <Moon size={16} className="dark:text-lime-400 text-teal-600" />
+              )}
+            </button>
+
             {!isAuthed ? (
               <>
                 <Link
@@ -106,24 +125,7 @@ export const TopBar = () => {
                 </Link>
               </>
             ) : (
-              <>
-                {/* Theme Toggle Button */}
-                <button
-                  type="button"
-                  onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-                  className="inline-flex items-center justify-center rounded-lg dark:border-white/10 border-gray-200 dark:bg-white/5 bg-gray-50 w-8 h-8 sm:w-9 sm:h-9 transition-all duration-200 dark:hover:bg-white/10 hover:bg-gray-100 border dark:hover:shadow-lg hover:shadow-md"
-                  aria-label="Toggle theme"
-                >
-                  {theme === "dark" ? (
-                    <Sun size={16} className="dark:text-lime-400 text-lime-600" />
-                  ) : (
-                    <Moon size={16} className="dark:text-lime-400 text-lime-600" />
-                  )}
-                </button>
-
-                {/* User Dropdown */}
-                <UserDropdown />
-              </>
+              <UserDropdown />
             )}
           </div>
         </div>
